@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import dateFormat from 'dateformat'; 
 
 class StaffList extends Component {
    constructor(props) {
@@ -6,10 +7,18 @@ class StaffList extends Component {
       console.log(this.props.staffs);
    }
    render() {
+      const staffs = this.props.staffs.map(staff => {
+         return (
+            <div className="row">
+               
+            </div>
+         )
+      })
       return (
-         <div>
-
+         <div className="container">
+            
          </div>
+
       )
    }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import dateFormat from 'dateformat'; 
-import { Button , Card , CardBody , CardText ,CardTitle } from 'reactstrap';
+import { Button , Card , CardBody , CardText ,CardTitle , CardImg} from 'reactstrap';
 
 class StaffList extends Component {
    constructor(props) {
@@ -32,8 +32,9 @@ class StaffList extends Component {
                      <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
                      <CardText>Hệ số lương: {staff.salaryScale}</CardText>
                   </CardBody>
-
-
+               </Card>
+               <Card className="col-12 col-md-6">
+                  <CardImg src={staff.image} />
                </Card>
             </div>
          )

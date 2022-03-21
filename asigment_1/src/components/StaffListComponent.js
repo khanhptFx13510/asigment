@@ -9,7 +9,7 @@ class StaffList extends Component {
       this.state = {
          selectedStaff: null
       }
-
+      
    }
 
    onStaffSelect(staff) {
@@ -17,9 +17,16 @@ class StaffList extends Component {
          selectedStaff: staff
       })
    }
-
+   renderRole(staff){
+      if(staff.salaryScale > 1){
+         return <CardText>Chức danh: <i>{this.props.roles.MANAGER_STAFF}</i></CardText>
+      }else{
+         return <CardText>Chức danh: <i>{this.props.roles.NORMAL_STAFF}</i></CardText>
+      }
+   }
    renderSelectedStaff(staff) {
       if(staff != null){
+         
          return (
             <div className="row">
                <Card className="col-12 col-md-6">
@@ -27,7 +34,10 @@ class StaffList extends Component {
                   <CardBody>
                      <CardText>Ngày sinh: {dateFormat(staff.doB , "dd/mm/yyyy")}</CardText>
                      <CardText>Ngày vào công ty: {dateFormat(staff.startDate , "dd/mm/yyyy")}</CardText>
-                     {/* <CardText>Phòng ban: {staff.department}</CardText> */}
+                     <CardText>
+                        Phòng ban: {staff.department.name}
+                     </CardText>
+                     {this.renderRole(this.state.selectedStaff)}
                      <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
                      <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
                      <CardText>Hệ số lương: {staff.salaryScale}</CardText>
@@ -38,6 +48,8 @@ class StaffList extends Component {
                </Card>
             </div>
          )
+         
+
       } else{
          return <div></div>
       }
@@ -58,6 +70,9 @@ class StaffList extends Component {
       })
       return (
          <div className="container">
+            <div className="row">
+               
+            </div>
             <div className="row">
                {staffs}
             </div>

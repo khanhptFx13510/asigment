@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { STAFFS } from './shared/staffs.jsx';
+import { STAFFS , DEPARTMENTS , ROLE } from './shared/staffs.jsx';
 import StaffList from './components/StaffListComponent.js';
 import { Navbar, NavbarBrand } from 'reactstrap';
 
@@ -9,8 +9,12 @@ class App extends Component {
     super(props);
     this.state={
       staffs: STAFFS,
+      departments: DEPARTMENTS,
+      roles: ROLE
     }
+
   }
+
   render() {
     return (
       <div>
@@ -21,7 +25,9 @@ class App extends Component {
         </Navbar>
 
           
-        <StaffList staffs={this.state.staffs} />
+        <StaffList staffs={this.state.staffs} 
+        departments={this.state.departments} 
+        roles= {this.state.roles} />
       </div>
     );
   }  

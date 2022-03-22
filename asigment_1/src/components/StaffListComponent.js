@@ -36,7 +36,7 @@ class StaffList extends Component {
          
          return (
             <div className="row">
-               <Card className="col-12 col-md-6 shadow-lg">
+               <Card className="col-12 col-md-6 shadow-lg my-3">
                   <h3>Họ và tên: {staff.name}</h3>
                   <CardBody>
                      <CardText>Ngày sinh: {dateFormat(staff.doB , "dd/mm/yyyy")}</CardText>
@@ -50,7 +50,7 @@ class StaffList extends Component {
                      <CardText>Hệ số lương: {staff.salaryScale}</CardText>
                   </CardBody>
                </Card>
-               <Card className="col-12 col-md-6 shadow-lg">
+               <Card className="col-12 col-md-6 shadow-lg my-3">
                   <CardImg src={staff.image} />
                </Card>
             </div>

@@ -3,6 +3,7 @@ import './App.css';
 import { STAFFS , DEPARTMENTS , ROLE } from './shared/staffs.jsx';
 import StaffList from './components/StaffListComponent.js';
 import { Navbar, NavbarBrand } from 'reactstrap';
+import Footer from './components/FooterMDB.js';
 
 class App extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class App extends Component {
         <StaffList staffs={this.state.staffs} 
         departments={this.state.departments} 
         roles= {this.state.roles} />
+        <Footer />
       </div>
     );
   }  

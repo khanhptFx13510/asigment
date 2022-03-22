@@ -89,6 +89,11 @@ class StaffList extends Component {
                   2 Cột
                </Button>
                <Button className="mx-2 my-2 px-4" color="danger" outline onClick={()=>{
+                  this.changeLayout('col-12 col-sm-6 col-md-4 m-0.5 mb-2')
+               }}>
+                  3 Cột
+               </Button>
+               <Button className="mx-2 my-2 px-4" color="danger" outline onClick={()=>{
                   this.changeLayout('col-12 col-sm-6 col-md-3 m-0.5 mb-2')
                }}>
                   4 Cột

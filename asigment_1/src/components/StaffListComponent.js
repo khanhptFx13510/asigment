@@ -7,9 +7,16 @@ class StaffList extends Component {
       super(props);
       
       this.state = {
-         selectedStaff: null
+         selectedStaff: null,
+         layoutDefault: "col-12 col-sm-6 col-md-4 m-0.5 mb-2"
       }
       
+   }
+
+   changeLayout(layout) {
+      this.setState({
+         layoutDefault: layout
+      })
    }
 
    onStaffSelect(staff) {
@@ -58,7 +65,7 @@ class StaffList extends Component {
    render() {
       const staffs = this.props.staffs.map(staff => {
          return (
-            <div key={staff.id} className="col-12 col-sm-6 col-md-4 m-0.5 mb-2">
+            <div key={staff.id} className={this.state.layoutDefault}>
                <Button block size="lg" color="secondary"
                onClick={() => this.onStaffSelect(staff)}>
                   {staff.name}
@@ -70,9 +77,30 @@ class StaffList extends Component {
       })
       return (
          <div className="container">
-            <div className="row">
-               
+            <div>
+               <Button className="mx-2 my-2 px-4" color="danger" outline onClick={()=>{
+                  this.changeLayout('col-12 col-sm-6 col-md-12 m-0.5 mb-2')
+               }}>
+                  1 Cột
+               </Button>
+               <Button className="mx-2 my-2 px-4" color="danger" outline onClick={()=>{
+                  this.changeLayout('col-12 col-sm-6 col-md-6 m-0.5 mb-2')
+               }}>
+                  2 Cột
+               </Button>
+               <Button className="mx-2 my-2 px-4" color="danger" outline onClick={()=>{
+                  this.changeLayout('col-12 col-sm-6 col-md-3 m-0.5 mb-2')
+               }}>
+                  4 Cột
+               </Button>
+               <Button className="mx-2 my-2 px-4" color="danger" outline onClick={()=>{
+                  this.changeLayout('col-12 col-sm-6 col-md-2 m-0.5 mb-2')
+               }}>
+                  6 Cột
+               </Button>
             </div>
+
+
             <div className="row">
                {staffs}
             </div>

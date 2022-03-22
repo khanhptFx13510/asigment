@@ -36,7 +36,7 @@ class StaffList extends Component {
          
          return (
             <div className="row">
-               <Card className="col-12 col-md-6">
+               <Card className="col-12 col-md-6 shadow-lg">
                   <h3>Họ và tên: {staff.name}</h3>
                   <CardBody>
                      <CardText>Ngày sinh: {dateFormat(staff.doB , "dd/mm/yyyy")}</CardText>
@@ -50,7 +50,7 @@ class StaffList extends Component {
                      <CardText>Hệ số lương: {staff.salaryScale}</CardText>
                   </CardBody>
                </Card>
-               <Card className="col-12 col-md-6">
+               <Card className="col-12 col-md-6 shadow-lg">
                   <CardImg src={staff.image} />
                </Card>
             </div>
@@ -66,7 +66,7 @@ class StaffList extends Component {
       const staffs = this.props.staffs.map(staff => {
          return (
             <div key={staff.id} className={this.state.layoutDefault}>
-               <Button block size="lg" color="secondary"
+               <Button className="shadow-lg" block size="lg" color="secondary"
                onClick={() => this.onStaffSelect(staff)}>
                   {staff.name}
                </Button>

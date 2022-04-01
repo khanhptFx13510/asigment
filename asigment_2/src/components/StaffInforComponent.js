@@ -2,7 +2,7 @@ import React from "react";
 import { Card , CardBody , CardText , CardTitle,  CardImg , Breadcrumb , BreadcrumbItem} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-function RenderStaff({staff}, {departments}) {
+function RenderStaff({staff}) {
    return(
       <div className="row my-1">
          <div className="col-md-3 col-sm-4 col-12">
@@ -19,7 +19,7 @@ function RenderStaff({staff}, {departments}) {
             </p>
             <p>
                --<i>Phòng Ban: </i>
-               {staff.department}
+               {staff.department.name}
             </p>
          </div>
       </div>
@@ -37,7 +37,7 @@ function StaffInfo(props) {
                   <BreadcrumbItem active>{props.staff.name}</BreadcrumbItem>
                </Breadcrumb>
             </div>
-            <RenderStaff staff= {props.staff} departments= {props.departments} />
+            <RenderStaff staff= {props.staff} />
            
          </div>
       )

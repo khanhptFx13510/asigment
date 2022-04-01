@@ -8,10 +8,12 @@ function HomePage(props){
       return(
          <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
             <Card>
+               <Link to={`/nhanvien/${staff.id}`}>
                <CardImg src={staff.image} width="100%" alt={staff.name} />
                <CardBody>
                   <CardTitle>{staff.name}</CardTitle>
                </CardBody>
+               </Link>
             </Card>
 
          </div>

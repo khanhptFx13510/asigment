@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import HomePage from './HomePageComponent.js';
+import StaffInfo from './StaffInforComponent';
 
 import { STAFFS , DEPARTMENTS , ROLE } from '../shared/staffs.jsx';
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 class Main extends Component {
    constructor(props) {
       super(props);
+
       this.state = {
          staffs: STAFFS,
          departments: DEPARTMENTS,
@@ -16,9 +18,11 @@ class Main extends Component {
       }
    }
    render() {
-      const StaffWithId = (match) => {
+      const StaffWithId = ({match}) => {
          return(
-            <StaffInfo staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId))[0]} />
+            <StaffInfo 
+               departments ={this.state.departments} 
+               staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId))[0]} />
          )
       }
       return (

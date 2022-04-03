@@ -26,21 +26,25 @@ class Header extends Component {
                <div className="container">
                   <NavbarToggler onClick={this.toggleNav} />
                   <NavbarBrand className="mr-auto" href="/">
-                     <img src='assets/images/logo.png' height="30" width="41" alt='Ristorante Con Fusion' />
+                     <img src='assets/images/logo.png' height="30" width="41" alt="Hồ sơ nhân sự" />
                   </NavbarBrand>
+                  
                   <Collapse isOpen={this.state.isNavOpen} navbar>
                      <Nav navbar>
                         <NavItem>
-                           <NavLink className="nav-link"  to='/nhanvien'><span className="fa fa-home fa-lg"></span>Nhân Viên</NavLink>
+                           <NavLink className="nav-link"  to='/nhanvien'><span className="fa fa-users fa-lg"></span>Nhân Viên</NavLink>
                         </NavItem>
                         <NavItem>
-                           <NavLink className="nav-link" to='/phongban'><span className="fa fa-info fa-lg"></span>Phòng Ban</NavLink>
+                           <NavLink className="nav-link" to='/phongban'><span className="fa fa-th fa-lg"></span>Phòng Ban</NavLink>
                         </NavItem>
                         <NavItem>
-                           <NavLink className="nav-link"  to='/bangluong'><span className="fa fa-list fa-lg"></span>Bảng Lương</NavLink>
+                           <NavLink className="nav-link"  to='/bangluong'><span className="fa fa-money fa-lg"></span>Bảng Lương</NavLink>
                         </NavItem>
                      </Nav>
                   </Collapse>
+                  <NavbarBrand>
+                     <h4>Ứng dụng quản lý nhân sự</h4>
+                  </NavbarBrand>
                </div>
             </Navbar>
 
@@ -48,6 +52,7 @@ class Header extends Component {
       );
    }
 }
+
             
             
 

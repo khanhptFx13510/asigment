@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem , CardBody } from 'reactstrap';
+import React, {useState , useEffect} from 'react';
+import { Card, CardImg, Button , CardTitle, Breadcrumb, BreadcrumbItem , CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
@@ -7,9 +7,8 @@ import { Link } from 'react-router-dom';
 
 function HomePage(props){
    const [name , setName] = useState('');
-   const [listName , setListName] = useState()
-   console.log(listName);
-
+   const [listName , setListName] = useState();
+   
    const staffs= props.staffs.map(staff =>{
       return(
          <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
@@ -26,16 +25,15 @@ function HomePage(props){
       )
    });
 
+   
    const handleName=() => {
       setListName(props.staffs.filter(item => 
-         item.name === name || item.id === name
+         item.name.toUpperCase() === name.toUpperCase() || item.id === parseInt(name , 10)
          ));
-      console.log(setListName);
    }
 
    const renderSearch= () =>{
       if(listName != undefined && listName.length > 0){
-         console.log(listName);
          const newStaffs = listName.map(staff =>{
             return (
                <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
@@ -52,9 +50,7 @@ function HomePage(props){
          })
          return <>{newStaffs}</>
       }
-      else{
-         return <>{staffs}</>
-      }
+
    }
 
 
@@ -64,19 +60,23 @@ function HomePage(props){
             <h2>Nhân Viên</h2>
             <div style={{paddingTop: "12px" , textAlign: "center" }}>
                <p>
-                  Tìm kiếm: <input type="text" 
+                  Tìm kiếm: <input type="text" className="mr-1 shadow-lg"
                      value={name}
                      onChange={(e) => {setName(e.target.value)}}
+                     placeholder="họ và tên hoặc số Id"
                   />
-                  <button onClick={() => handleName()}>search</button>
+                  <Button className="shadow-lg" color="success" onClick={() => handleName() }>
+                     Search
+                  </Button>
                </p>
             </div>
          </div>
          <hr/>
-         <div className="row">
-            {renderSearch()}
-         </div>
 
+         <div className="row">
+            {renderSearch() || staffs}
+
+         </div>
       </div>
    )
 }

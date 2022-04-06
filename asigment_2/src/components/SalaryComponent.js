@@ -28,11 +28,11 @@ function SalaryTable (props){
                      <CardText>-Mã nhân viên: {salary.id}</CardText>
                      <CardText>-Hệ số lương: {salary.salaryScale}</CardText>
                      <CardText>-Số giờ làm thêm: {salary.overTime} giờ</CardText>
-                     <div className="container bg-primary align-items-center">
-                        <h5>Lương: {parseInt(calculator(salary) , 10)}</h5>
-                     </div>
 
                   </CardBody>
+                  <div className="container bg-secondary align-items-center">
+                     <h5>Lương: {parseInt(calculator(salary) , 10)}</h5>
+                  </div>
                </CardBody>
             </Card>
          </div>

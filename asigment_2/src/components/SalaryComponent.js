@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { Card , CardBody , CardTitle , Breadcrumb , BreadcrumbItem , Button , CardText } from 'reactstrap';
 import { Link } from 'react-router-dom';
+
 
 function calculator(salary){
    return salary.salaryScale * 3000000 + salary.overTime * (200000 / 8) * salary.salaryScale;
@@ -9,16 +10,34 @@ function calculator(salary){
 }
    
 
-function LayoutSalary(salarys) {
-   for(let i=0; i<salarys.length; i++) {
-      console.log(salarys[i]);
-      parseInt(calculator(salarys[i]));
-      // console.log(calculator(salarys[i]));
-   }
-}
+
 
 function SalaryTable (props){
-   const salarys= props.salarys.map(salary =>{
+   
+   const [listId , setListId] = useState(props.salarys);
+   const [isChanged , setIsChanged] = useState(true);
+   
+   console.log(listId , isChanged);
+
+   function LayoutSalary() {
+      if(isChanged == true){
+         setListId(
+            listId.sort( function(a, b) {
+               return parseFloat(b.id) - parseFloat(a.id);
+            })
+         )
+      } else{
+         setListId(
+            listId.sort( function(a, b) {
+               return parseFloat(a.id) - parseFloat(b.id);
+            })
+         )
+      }
+
+   }
+   
+
+   const salarys= listId.map(salary =>{
       return(
          <div key={salary.id} className="col-md-4 col-sm-2 col-12 my-2">
             <Card className="shadow-lg">
@@ -53,15 +72,18 @@ function SalaryTable (props){
          <hr />
          <div className="row">
             <Button className="shadow-lg mr-2" size="lg" color="secondary"
-            onClick={() => LayoutSalary({salarys})}>
-               Sắp xếp theo mức lương từ cao đến thấp
+            onClick={() => {
+               setIsChanged(!isChanged);
+               LayoutSalary()
+               }}>
+               {isChanged ? 
+                  "Sắp xếp nhân viên theo mã nhân viên từ lớn đến nhỏ" 
+                  : 
+                  "Sắp xếp nhân viên theo thứ tự từ nhỏ đến lớn"
+               }
             </Button>
-            <Button className="shadow-lg" size="lg" color="secondary"
-            onClick={() => LayoutSalary({salarys})}>
-               Sắp xếp theo mức lương từ thấp đến cao
-            </Button>
-
          </div>
+
          <hr />
 
          <div className="row">

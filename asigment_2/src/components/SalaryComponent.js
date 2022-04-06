@@ -39,7 +39,7 @@ function SalaryTable (props){
 
    const salarys= listId.map(salary =>{
       return(
-         <div key={salary.id} className="col-md-4 col-sm-2 col-12 my-2">
+         <div key={salary.id} className="col-md-4 col-sm-6 col-12 my-2">
             <Card className="shadow-lg">
                <CardBody className="bg-dark text-success">
                   <CardTitle><h4>{salary.name}</h4></CardTitle>

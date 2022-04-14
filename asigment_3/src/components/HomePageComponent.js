@@ -1,84 +1,71 @@
-import React, {useState} from 'react';
+import React, {Component} from 'react';
 import { Card, CardImg, Button , CardTitle, Breadcrumb, BreadcrumbItem , CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
 
 
-function HomePage(props){
-   const [name , setName] = useState('');
-   const [listName , setListName] = useState();
-   
-   const staffs= props.staffs.map(staff =>{
-      return(
-         <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
-            <Card className="shadow-lg">
-               <Link to={`/nhanvien/${staff.id}`}>
-               <CardImg src={staff.image} width="100%" alt={staff.name} />
-               <CardBody className="bg-dark">
-                  <CardTitle>{staff.name}</CardTitle>
-               </CardBody>
-               </Link>
-            </Card>
-         </div>
-
-      )
-   });
-
-   
-   const handleName=() => {
-      setListName(props.staffs.filter(item => 
-         item.name.toUpperCase() === name.toUpperCase() || item.id === parseInt(name , 10)
-         ));
+export default class HomePage extends Component {
+   constructor(props) {
+      super(props);
+      
    }
 
-   const renderSearch= () =>{
-      if(listName != undefined && listName.length > 0){
-         const newStaffs = listName.map(staff =>{
-            return (
-               <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
-                  <Card className="shadow-lg">
-                     <Link to={`/nhanvien/${staff.id}`}>
-                     <CardImg src={staff.image} width="100%" alt={staff.name} />
-                     <CardBody className="bg-dark">
-                        <CardTitle>{staff.name}</CardTitle>
-                     </CardBody>
-                     </Link>
-                  </Card>
+   // toggleSearch(){
+
+   // }
+   render() {
+      const staffs= this.props.staffs.map(staff =>{
+         return(
+            <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
+               <Card className="shadow-lg">
+                  <Link to={`/nhanvien/${staff.id}`}>
+                  <CardImg src={staff.image} width="100%" alt={staff.name} />
+                  <CardBody className="bg-dark">
+                     <CardTitle>{staff.name}</CardTitle>
+                  </CardBody>
+                  </Link>
+               </Card>
+            </div>
+   
+         )
+      });
+      
+      return (
+         <div className="container">
+            <div className="row" style={{display: 'flex' , justifyContent: "space-between"}}>
+               <div className="row col-md-6 col-sm-12" style={{alignItems: "center",justifyContent:"space-between" }}>
+                  <h2>Nhân Viên</h2>
+                  <Button className="shadow-lg" color="dark"
+                  >
+                     <span class="fa fa-plus fa-lg"></span>
+                  </Button>
                </div>
-            )
-         })
-         return <>{newStaffs}</>
-      }
 
-   }
-
-
-   return (
-      <div className="container">
-         <div className="row" style={{display: 'flex' , justifyContent: "space-between"}}>
-            <h2>Nhân Viên</h2>
-            <div style={{paddingTop: "12px" , textAlign: "center" }}>
-               <p>
-                  Tìm kiếm: <input type="text" className="mr-1 shadow-lg"
-                     value={name}
-                     onChange={(e) => {setName(e.target.value)}}
-                     placeholder="họ và tên hoặc số Id"
-                  />
-                  <Button className="shadow-lg" color="success" onClick={() => handleName() }>
+               <div style={{alignItems: "center",justifyContent:"space-between" }} className="row col-md-6 col-sm-12">
+                  <input type="text" className="col-md-9 col-sm-8 col-8" 
+                  placeholder="Tìm kiếm nhân viên" />
+                  <Button color="success"
+                  // onClick={toggleSearch}
+                  >
                      Search
                   </Button>
-               </p>
+               </div>
+            </div>
+            <hr/>
+   
+            <div className="row">
+               {staffs}
+   
             </div>
          </div>
-         <hr/>
+      )
+   }
 
-         <div className="row">
-            {renderSearch() || staffs}
+   
 
-         </div>
-      </div>
-   )
+
+
+   
 }
 
-export default HomePage;

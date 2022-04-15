@@ -1,21 +1,24 @@
 import React, {Component} from 'react';
-import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Form , FormGroup , Input, Col , Label , CardBody, ModalBody ,FormFeedback } from 'reactstrap';
+import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Row , Input, Col , Label , CardBody, ModalBody ,FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Control, LocalForm, Errors } from 'react-redux-form';
 
-
-
+// const required = (val) => val && val.length;
+// const maxLength = (len) => (val) => !(val) || (val.length <= len);
+// const minLength = (len) => (val) => val && (val.length >= len);
+// const isNumber = (val) => !isNaN(Number(val));
 
 export default class HomePage extends Component {
    constructor(props) {
       super(props);
       this.state={
-         nameStaff:"",
+         // nameStaff:"",
          dateOfBirth:"",
          startDate:"",
-         department:"",
-         salaryScale:"",
-         annualLeave:"",
-         overTime:"",
+         // department:"",
+         // salaryScale:"",
+         // annualLeave:"",
+         // overTime:"",
          touched:{
             nameStaff:false,
             dateOfBirth:false,
@@ -55,6 +58,7 @@ export default class HomePage extends Component {
    }
 
    submitAddStaff(event){
+     
       if(this.state.touched.nameStaff === false || this.state.touched.dateOfBirth === false || this.state.touched.startDate === false){
          this.setState({
             touched: {
@@ -65,6 +69,18 @@ export default class HomePage extends Component {
          })
       }
       else if(this.state.nameStaff.length >2 && this.state.nameStaff.length < 30 && this.state.dateOfBirth !== "" && this.state.startDate !== ""){
+         const newStaff = {
+            name: "",
+            doB: "",
+            salaryScale:"",
+            startDate: "",
+            department: "",
+            annualLeave: "",
+            overTime: "",
+            salary: "",
+            image: '/assets/images/alberto.png',
+         }
+
          this.setState({
          isOpenModal: !this.state.isOpenModal,
          nameStaff:"",
@@ -81,19 +97,6 @@ export default class HomePage extends Component {
          }
          })
       }
-         
-
-      const newStaff = {
-         name: "",
-         doB: "",
-         salaryScale:"",
-         startDate: "",
-         department: "",
-         annualLeave: "",
-         overTime: "",
-         salary: "",
-         image: '/assets/images/alberto.png',
-      }
 
          
       event.preventDefault();
@@ -101,8 +104,7 @@ export default class HomePage extends Component {
    }
 
    handleBlur = (field) => (event) => {
-      // console.log(field);
-      // console.log(event);
+
       this.setState({
          touched:{...this.state.touched , [field]: true}
       })
@@ -213,13 +215,14 @@ export default class HomePage extends Component {
                   Thêm nhân viên
                </ModalHeader>
                <ModalBody>
-                  <Form onSubmit={this.submitAddStaff}>
-                     <FormGroup row className="control-group">
+                  <LocalForm onSubmit={this.submitAddStaff}>
+                     <Row className="form-group">
                         <Label htmlFor="nameStaff" md={4}>
                            Tên   
                         </Label>
                         <Col md={8}>
-                           <Input type="text" name="nameStaff" placeholder="what is your name?" 
+                           <Control.text model=".nameStaff" name="nameStaff" placeholder="what is your name?"
+                           className="form-control"
                            onChange={this.handleChangeInput}
                            onBlur={this.handleBlur("nameStaff")}
                            valid={errors.nameStaff === ""}
@@ -228,14 +231,15 @@ export default class HomePage extends Component {
                               {errors.nameStaff}
                            </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
-                     <FormGroup row className="control-group">
+                     <Row className="form-group">
                         <Label htmlFor="dateOfBirth" md={4}>
                            Ngày sinh:   
                         </Label>
                         <Col md={8}>
                         <Input type="date" name="dateOfBirth" placeholder="dd/MM/yyyy"
+                        className="form-control"
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("dateOfBirth")}
                         valid={errors.dateOfBirth === ""}
@@ -245,14 +249,15 @@ export default class HomePage extends Component {
                            {errors.dateOfBirth}
                         </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
-                     <FormGroup row className="control-group">
+                     <Row className="form-group">
                         <Label htmlFor="startDate" md={4}>
                            Ngày vào công ty:   
                         </Label>
                         <Col md={8}>
                         <Input type="date" name="startDate" placeholder="date placeholder"
+                        className="form-control"
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("startDate")}
                         valid={errors.startDate === ""}
@@ -262,14 +267,14 @@ export default class HomePage extends Component {
                            {errors.startDate}
                         </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
-                     <FormGroup row className="control-group">
+                     <Row className="control-group">
                         <Label htmlFor="department" md={4}>
                            Phòng ban   
                         </Label>
                         <Col md={8}>
-                        <Input type="select" name="department" placeholder="what is your name?" className="col-12 form-control"
+                        <Control.select model=".department" name="department" placeholder="what is your name?" className="col-12 form-control"
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("department")}
                         valid={errors.department === ""}
@@ -280,19 +285,19 @@ export default class HomePage extends Component {
                            <option>Marketing</option>
                            <option>IT</option>
                            <option>Finance</option>
-                        </Input>
+                        </Control.select>
                         <FormFeedback>
                            {errors.department}
                         </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
-                     <FormGroup row className="control-group">
+                     <Row className="form-group">
                         <Label htmlFor="salaryScale" md={4}>
                            Hệ số lương   
                         </Label>
                         <Col md={8}>
-                        <Input type="text" name="salaryScale" placeholder="what is your name?" className="col-12 form-control"
+                        <Control.text model=".salaryScale" name="salaryScale" placeholder="what is your name?" className="form-control"
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("salaryScale")}
                         valid={errors.salaryScale === ""}
@@ -302,14 +307,14 @@ export default class HomePage extends Component {
                            {errors.salaryScale}
                         </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
-                     <FormGroup row className="control-group">
+                     <Row row className="form-group">
                         <Label htmlFor="annualLeave" md={4}>
                            Số ngày nghỉ còn lại  
                         </Label>
                         <Col md={8}>
-                        <Input type="text" name="annualLeave" className="col-12 form-control"
+                        <Control.text model=".annualLeave"name="annualLeave" className="col-12 form-control"
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("annualLeave")}
                         valid={errors.annualLeave === ""}
@@ -319,14 +324,14 @@ export default class HomePage extends Component {
                            {errors.annualLeave}
                         </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
-                     <FormGroup row className="control-group">
+                     <Row className="form-group">
                         <Label htmlFor="overTime" md={4}>
                            Số ngày làm thêm 
                         </Label>
                         <Col md={8}>
-                        <Input type="text" name="overTime" className="col-12 form-control"
+                        <Control.text model=".overTime"name="overTime" className="col-12 form-control"
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("overTime")}
                         valid={errors.overTime === ""}
@@ -336,10 +341,10 @@ export default class HomePage extends Component {
                            {errors.overTime}
                         </FormFeedback>
                         </Col>
-                     </FormGroup>
+                     </Row>
 
                      <Button type="submit" color="primary">Thêm</Button>
-                  </Form>
+                  </LocalForm>
                </ModalBody>
             </Modal>
          </div>

@@ -16,22 +16,27 @@ const mapStateToProps = (state) => {
    }
 }
 
+
 class Main extends Component {
    constructor(props) {
       super(props);
+      const dataStaffs = JSON.parse(localStorage.getItem("staffs"));
       this.state={
-         staffs: this.props.staffs,
+         staffs: dataStaffs || this.props.staffs ,
       };
       this.addStaff = this.addStaff.bind(this);
+      console.log(dataStaffs);
    }
-
+   
    addStaff = (staff) => {
       this.setState({
          staffs:[...this.state.staffs , staff]
       })
-      console.log("add", staff);
+      localStorage.setItem('staffs', JSON.stringify(
+         [...this.state.staffs , staff]
+      ));
    }
-
+      
 
    render() {
       const StaffWithId = ({match}) => {

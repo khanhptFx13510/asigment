@@ -6,7 +6,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 const required = (val) => (val && val.length > 0);
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val && (val.length >= len)) || !(val)
-const isNumber = (val) => !isNaN(Number(val));
+const isNumber = (val) => !isNaN(Number(val)) || !(val);
 
 export default class HomePage extends Component {
    constructor(props) {

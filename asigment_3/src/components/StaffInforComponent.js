@@ -20,7 +20,7 @@ function RenderStaff({staff}) {
             </p>
             <p>
                --<i>Phòng Ban: </i>
-               {staff.department.name}
+               {staff.department.name || staff.department}
             </p>
             <p>
                --<i>Số ngày nghỉ còn lại: </i>

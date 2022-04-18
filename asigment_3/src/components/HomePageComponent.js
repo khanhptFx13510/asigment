@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Form , FormGroup , Input, Col , Label , CardBody, ModalBody ,FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-
-
-
 export default class HomePage extends Component {
    constructor(props) {
       super(props);
@@ -12,10 +9,10 @@ export default class HomePage extends Component {
          nameStaff:"",
          dateOfBirth:"",
          startDate:"",
-         department:"",
-         salaryScale:"",
-         annualLeave:"",
-         overTime:"",
+         department: "Sale",
+         salaryScale:1,
+         annualLeave:0,
+         overTime:0,
          touched:{
             nameStaff:false,
             dateOfBirth:false,
@@ -43,7 +40,22 @@ export default class HomePage extends Component {
    
    toggleModal(){
       this.setState({
-         isOpenModal: !this.state.isOpenModal
+         isOpenModal: !this.state.isOpenModal,
+         nameStaff:"",
+         dateOfBirth:"",
+         startDate:"",
+         department:"Sale",
+         salaryScale:1,
+         annualLeave:0,
+         overTime:0,
+         touched:{
+            nameStaff:false,
+            dateOfBirth:false,
+            startDate:false,
+            salaryScale:false,
+            annualLeave:false,
+            overTime:false,
+         },
       })
    }
 
@@ -54,8 +66,10 @@ export default class HomePage extends Component {
       })
    }
 
-   submitAddStaff(event){
-      if(this.state.touched.nameStaff === false || this.state.touched.dateOfBirth === false || this.state.touched.startDate === false){
+   submitAddStaff(values){
+      if(this.state.touched.nameStaff === false || 
+         this.state.touched.dateOfBirth === false || 
+         this.state.touched.startDate === false){
          this.setState({
             touched: {
                nameStaff: true,
@@ -64,45 +78,43 @@ export default class HomePage extends Component {
             },
          })
       }
-      else if(this.state.nameStaff.length >2 && this.state.nameStaff.length < 30 && this.state.dateOfBirth !== "" && this.state.startDate !== ""){
-         this.setState({
-         isOpenModal: !this.state.isOpenModal,
-         nameStaff:"",
-         dateOfBirth:"",
-         startDate:"",
-         department:"",
-         salaryScale:"",
-         annualLeave:"",
-         overTime:"",
-         touched: {
-            nameStaff: false,
-            dateOfBirth: false,
-            startDate: false
+      else if(this.state.nameStaff.length >2 && this.state.nameStaff.length < 30 
+         && this.state.dateOfBirth !== "" 
+         && this.state.startDate !== ""
+         && (isNaN(this.state.salaryScale) == false)
+         && (isNaN(this.state.annualLeave) == false)
+         && (isNaN(this.state.overTime) == false)) {
+         
+         const newStaff = {
+            id: this.props.staffs.length,
+            name: this.state.nameStaff,
+            doB: this.state.dateOfBirth,
+            salaryScale:this.state.salaryScale,
+            startDate: this.state.startDate,
+            department: this.state.department,
+            annualLeave: this.state.annualLeave,
+            overTime: this.state.overTime,
+            salary: 3000000,
+            image: '/assets/images/alberto.png',
          }
+
+         this.setState({
+            isOpenModal: !this.state.isOpenModal,
+            touched: {
+               nameStaff: false,
+               dateOfBirth: false,
+               startDate: false
+            }
          })
+         this.props.onAdd(newStaff);
       }
-         
-
-      const newStaff = {
-         name: "",
-         doB: "",
-         salaryScale:"",
-         startDate: "",
-         department: "",
-         annualLeave: "",
-         overTime: "",
-         salary: "",
-         image: '/assets/images/alberto.png',
-      }
-
-         
-      event.preventDefault();
-
+      values.preventDefault();
+                    
    }
 
+         
+
    handleBlur = (field) => (event) => {
-      // console.log(field);
-      // console.log(event);
       this.setState({
          touched:{...this.state.touched , [field]: true}
       })
@@ -125,27 +137,30 @@ export default class HomePage extends Component {
       } else if(this.state.touched.nameStaff && nameStaff.length > 30){
          errors.nameStaff= "Yêu cầu ít hơn 30 ký tự"
       } 
-
+      // errors date
       if(this.state.touched.dateOfBirth && dateOfBirth.length < 1){
          errors.dateOfBirth = "Yêu cầu nhập"
       }
       if(this.state.touched.startDate && startDate.length < 1){
          errors.startDate = "Yêu cầu nhập"
       }
-      if(this.state.touched.startDate && startDate.length < 1){
-         errors.startDate = "Yêu cầu nhập"
-      }
+      
       if(this.state.touched.department && department.length < 1){
          errors.department = "Yêu cầu nhập"
       }
-      if(this.state.touched.salaryScale && salaryScale.length < 1){
-         errors.salaryScale = "Yêu cầu nhập"
+      
+      //check number
+      if(this.state.touched.salaryScale && 
+         (isNaN(this.state.salaryScale) == true || salaryScale.length < 1)){
+         errors.salaryScale = "Yêu cầu nhập số"
       }
-      if(this.state.touched.annualLeave && annualLeave.length < 1){
-         errors.annualLeave = "Yêu cầu nhập"
+      if(this.state.touched.annualLeave && 
+         (isNaN(this.state.annualLeave) || annualLeave.length < 1)){
+         errors.annualLeave = "Yêu cầu nhập số"
       }
-      if(this.state.touched.overTime && overTime.length < 1){
-         errors.overTime = "Yêu cầu nhập"
+      if(this.state.touched.overTime && 
+         (isNaN(this.state.overTime) || overTime.length < 1)){
+         errors.overTime = "Yêu cầu nhập số"
       }
       return errors;
    }
@@ -160,8 +175,7 @@ export default class HomePage extends Component {
             staff.name.toUpperCase().includes(this.state.nameSearched.toUpperCase())
          ){
             return staff;
-         }
-         
+         };
       })
       .map(staff =>{
          return(
@@ -175,9 +189,9 @@ export default class HomePage extends Component {
                   </Link>
                </Card>
             </div>
-   
          )
       });
+   
       
       const errors=this.validate(this.state.nameStaff , this.state.dateOfBirth , this.state.startDate , this.state.department, this.state.salaryScale, this.state.annualLeave, this.state.overTime)
       return (
@@ -270,6 +284,7 @@ export default class HomePage extends Component {
                         </Label>
                         <Col md={8}>
                         <Input type="select" name="department" placeholder="what is your name?" className="col-12 form-control"
+                        value={this.state.department}
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("department")}
                         valid={errors.department === ""}
@@ -292,7 +307,8 @@ export default class HomePage extends Component {
                            Hệ số lương   
                         </Label>
                         <Col md={8}>
-                        <Input type="text" name="salaryScale" placeholder="what is your name?" className="col-12 form-control"
+                        <Input type="text" name="salaryScale" className="col-12 form-control"
+                        value={this.state.salaryScale}
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("salaryScale")}
                         valid={errors.salaryScale === ""}
@@ -310,6 +326,7 @@ export default class HomePage extends Component {
                         </Label>
                         <Col md={8}>
                         <Input type="text" name="annualLeave" className="col-12 form-control"
+                        value={this.state.annualLeave}
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("annualLeave")}
                         valid={errors.annualLeave === ""}
@@ -327,6 +344,7 @@ export default class HomePage extends Component {
                         </Label>
                         <Col md={8}>
                         <Input type="text" name="overTime" className="col-12 form-control"
+                        value= {this.state.overTime}
                         onChange={this.handleChangeInput}
                         onBlur={this.handleBlur("overTime")}
                         valid={errors.overTime === ""}
@@ -353,4 +371,7 @@ export default class HomePage extends Component {
 
    
 }
+
+
+
 

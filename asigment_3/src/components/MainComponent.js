@@ -11,13 +11,21 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 class Main extends Component {
    constructor(props) {
       super(props);
-
       this.state = {
          staffs: STAFFS,
          departments: DEPARTMENTS,
          roles: ROLE
       }
+      this.addStaff= this.addStaff.bind(this);
    }
+
+   addStaff(staff) {
+      console.log(staff);
+      this.setState({
+         staffs: [...this.state.staffs , staff]
+      })
+   }
+
    render() {
       const StaffWithId = ({match}) => {
          return(
@@ -30,7 +38,7 @@ class Main extends Component {
          <div>
             <Header />
             <Switch>
-               <Route exact path='/nhanvien' component={() => <HomePage staffs={this.state.staffs} />} />
+               <Route exact path='/nhanvien' component={() => <HomePage onAdd={this.addStaff} staffs={this.state.staffs} />} />
                <Route path='/nhanvien/:staffId' component={StaffWithId} />
                <Route path="/phongban" component={() => <Department departments={this.state.departments} />} />
                <Route path="/bangluong" component={() => <SalaryTable salarys={this.state.staffs} />} />

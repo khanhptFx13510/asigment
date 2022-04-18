@@ -11,8 +11,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 class Main extends Component {
    constructor(props) {
       super(props);
+      
+      const staffData = JSON.parse(localStorage.getItem("staffs"))
+      console.log(staffData);
+      
       this.state = {
-         staffs: STAFFS,
+         staffs: staffData || STAFFS,
          departments: DEPARTMENTS,
          roles: ROLE
       }
@@ -20,10 +24,10 @@ class Main extends Component {
    }
 
    addStaff(staff) {
-      console.log(staff);
       this.setState({
          staffs: [...this.state.staffs , staff]
       })
+      localStorage.setItem("staffs" , JSON.stringify([...this.state.staffs , staff]));
    }
 
    render() {

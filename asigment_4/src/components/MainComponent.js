@@ -7,6 +7,7 @@ import Department from './DepartmentsComponent';
 import SalaryTable from './SalaryComponent';
 import { Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+import { fetchStaffs } from '../redux/ActionCreators';
 
 const mapStateToProps = (state) => {
    return{ 
@@ -16,25 +17,27 @@ const mapStateToProps = (state) => {
    }
 }
 
+const mapDispatchToProps = (dispatch) =>({
+   fetchStaffs: () => {dispatch(fetchStaffs())},
+})
 
 class Main extends Component {
+   componentDidMount(){
+      this.props.fetchStaffs();
+   }
+
    constructor(props) {
       super(props);
-      const dataStaffs = JSON.parse(localStorage.getItem("staffs"));
       this.state={
-         staffs: dataStaffs || this.props.staffs ,
+         staffs: this.props.staffs ,
       };
       this.addStaff = this.addStaff.bind(this);
-      console.log(dataStaffs);
    }
    
    addStaff = (staff) => {
       this.setState({
          staffs:[...this.state.staffs , staff]
       })
-      localStorage.setItem('staffs', JSON.stringify(
-         [...this.state.staffs , staff]
-      ));
    }
       
 
@@ -65,4 +68,4 @@ class Main extends Component {
    }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapDispatchToProps,mapStateToProps)(Main));

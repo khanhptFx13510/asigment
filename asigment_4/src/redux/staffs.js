@@ -1,10 +1,12 @@
 import * as ActionTypes from "./ActionTypes";
-// import {STAFFS} from '../shared/staffs';
 
-export const Staffs = (state = {staffs: []}, action) => {
-   switch(action.type) {
+export const Staffs = (state = {isLoading: true, staffs: []}, action) => {
+   switch (action.type) {
       case ActionTypes.ADD_STAFF:
-         return {...state ,staffs : action.payloads}
+         return {...state , isLoading: false ,staffs: action.payload};
+      
+      case ActionTypes.STAFFS_LOADING:
+         return {...state , isLoading: true ,staffs: []};
       default: 
       return state;
    }

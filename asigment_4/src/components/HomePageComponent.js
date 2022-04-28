@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Row , Input, Col , Label , CardBody, ModalBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import {Loading} from './LoadingComponent';
 
 const required = (val) => (val && val.length > 0);
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -49,38 +50,43 @@ export default class HomePage extends Component {
       this.setState({
          isOpenModal: !this.state.isOpenModal,
       })
-      this.props.onAdd(newStaff);
    }
       
 
    render() {
-      const staffs= this.props.staffs
-      .filter(staff => {
-         if(this.state.nameSearched == ""){
-            return staff;
-         }
-         else if(
-            staff.name.toUpperCase().includes(this.state.nameSearched.toUpperCase())
-         ){
-            return staff;
-         }
+      const staffs = () =>{
+         if(this.props.isLoading){
+            return <Loading />
+         } else {
+            const staffsList =this.props.staffs.filter(staff => {
+               if(this.state.nameSearched == ""){
+                  return staff;
+               }
+               else if(
+                  staff.name.toUpperCase().includes(this.state.nameSearched.toUpperCase())
+               ){
+                  return staff;
+               }           
+            })
+            .map(staff =>{
+               return(
+                  <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
+                     <Card className="shadow-lg">
+                        <Link to={`/nhanvien/${staff.id}`}>
+                        <CardImg src={staff.image} width="100%" alt={staff.name} />
+                        <CardBody className="bg-dark">
+                           <CardTitle>{staff.name}</CardTitle>
+                        </CardBody>
+                        </Link>
+                     </Card>
+                  </div>
          
-      })
-      .map(staff =>{
-         return(
-            <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
-               <Card className="shadow-lg">
-                  <Link to={`/nhanvien/${staff.id}`}>
-                  <CardImg src={staff.image} width="100%" alt={staff.name} />
-                  <CardBody className="bg-dark">
-                     <CardTitle>{staff.name}</CardTitle>
-                  </CardBody>
-                  </Link>
-               </Card>
-            </div>
-   
-         )
-      });
+               )
+            });
+            return staffsList;
+         }
+      }
+
       
       return (
          <div className="container">
@@ -107,7 +113,7 @@ export default class HomePage extends Component {
             <hr/>
    
             <div className="row">
-               {staffs}
+               {staffs()}
             </div>
 
             <Modal isOpen={this.state.isOpenModal}>
@@ -288,12 +294,6 @@ export default class HomePage extends Component {
       )
    }
                            
-
-   
-
-
-
-   
 }
          
 

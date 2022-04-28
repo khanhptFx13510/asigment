@@ -7,59 +7,82 @@ import Department from './DepartmentsComponent';
 import SalaryTable from './SalaryComponent';
 import { Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStaffs } from '../redux/ActionCreators';
+import { fetchStaffs , fetchDepartments , fetchSalarys} from '../redux/ActionCreators';
+
 
 const mapStateToProps = (state) => {
    return{ 
       staffs: state.staffs,
       departments: state.departments,
-      roles: state.roles
+      staffsSalary: state.staffsSalary,
    }
 }
 
 const mapDispatchToProps = (dispatch) =>({
    fetchStaffs: () => {dispatch(fetchStaffs())},
+   fetchDepartments : () => {dispatch(fetchDepartments())},
+   fetchSalarys: () => {dispatch(fetchSalarys())}
 })
 
 class Main extends Component {
    componentDidMount(){
       this.props.fetchStaffs();
-   }
-
-   constructor(props) {
-      super(props);
-      this.state={
-         staffs: this.props.staffs ,
-      };
-      this.addStaff = this.addStaff.bind(this);
+      this.props.fetchDepartments();
+      this.props.fetchSalarys();
    }
    
-   addStaff = (staff) => {
-      this.setState({
-         staffs:[...this.state.staffs , staff]
-      })
-   }
+   // constructor(props) {
+   //    super(props);
+      // this.state={
+         //    staffs: this.props.staffs ,
+         // };
+         // this.addStaff = this.addStaff.bind(this);
+      // }
       
-
+      // addStaff = (staff) => {
+         //    this.setState({
+            //       staffs:[...this.state.staffs , staff]
+            //    })
+            // }
+            
+            
    render() {
+      // console.log(this.props.staffsSalary);
       const StaffWithId = ({match}) => {
          return(
             <StaffInfo 
-               departments ={this.props.departments} 
-               staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId))[0]} />
+               departments ={this.props.departments.departments} 
+               staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.staffId))[0]} />
          )
       }
       return (
          <div>
             <Header />
             <Switch>
-               <Route exact path='/nhanvien' component={() => 
-                     <HomePage onAdd={this.addStaff} staffs={this.state.staffs} />
+               <Route exact path='/nhanvien' 
+                  component={() => 
+                     <HomePage staffs={this.props.staffs.staffs}
+                     isLoading ={this.props.staffs.isLoading}
+                      />
                   } 
                />
                <Route path='/nhanvien/:staffId' component={StaffWithId} />
-               <Route path="/phongban" component={() => <Department departments={this.props.departments} />} />
-               <Route path="/bangluong" component={() => <SalaryTable salarys={this.state.staffs} />} />
+
+               <Route path="/phongban" component={() => 
+                  <Department 
+                     departments={this.props.departments.departments} 
+                     isLoading ={this.props.departments.departmentsLoading}   
+                  />}
+               />
+                      
+               <Route path="/bangluong" component={() => 
+                  <SalaryTable 
+                     salarys={this.props.staffsSalary.staffsSalary}
+                     isLoading={this.props.staffsSalary.salaryLoading}
+                  />
+               } 
+               />
+
                <Redirect to='/nhanvien' />
             </Switch>
             <Footer />
@@ -68,4 +91,4 @@ class Main extends Component {
    }
 }
 
-export default withRouter(connect(mapDispatchToProps,mapStateToProps)(Main));
+export default withRouter(connect( mapStateToProps,mapDispatchToProps)(Main));

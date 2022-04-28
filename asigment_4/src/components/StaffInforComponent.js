@@ -3,7 +3,8 @@ import { Breadcrumb , BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import dateFormat from 'dateformat'; 
 
-function RenderStaff({staff}) {
+function RenderStaff({staff , departments}) {
+   const department = departments.filter((department) =>department.id == staff.departmentId)[0];
    return(
       <div className="row my-1 shadow-lg">
          <div className="col-md-3 col-sm-4 col-12">
@@ -20,7 +21,7 @@ function RenderStaff({staff}) {
             </p>
             <p>
                --<i>Phòng Ban: </i>
-               {staff.department.name || staff.department}
+               {department.name}
             </p>
             <p>
                --<i>Số ngày nghỉ còn lại: </i>
@@ -37,6 +38,7 @@ function RenderStaff({staff}) {
 
 
 function StaffInfo(props) {
+   // console.log(props.departments);
    if(props.staff != null) {
       return(
          <div className="container">
@@ -47,7 +49,7 @@ function StaffInfo(props) {
                </Breadcrumb>
             </div>
             <hr />
-            <RenderStaff staff= {props.staff} />
+            <RenderStaff staff= {props.staff} departments={props.departments} />
            
          </div>
       )

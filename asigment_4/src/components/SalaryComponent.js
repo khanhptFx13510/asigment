@@ -1,15 +1,7 @@
 import React, {useState} from 'react';
-
+import {Loading} from './LoadingComponent';
 import { Card , CardBody , CardTitle , Breadcrumb , BreadcrumbItem , Button , CardText } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
-
-function calculator(salary){
-   return salary.salaryScale * 3000000 + salary.overTime * (200000 / 8) * salary.salaryScale;
-
-}
-   
-
 
 
 function SalaryTable (props){
@@ -17,8 +9,6 @@ function SalaryTable (props){
    const [listId , setListId] = useState(props.salarys);
    const [isChanged , setIsChanged] = useState(true);
    
-   console.log(listId , isChanged);
-
    function LayoutSalary() {
       if(isChanged == true){
          setListId(
@@ -33,10 +23,9 @@ function SalaryTable (props){
             })
          )
       }
-
    }
    
-
+   
    const salarys= listId.map(salary =>{
       return(
          <div key={salary.id} className="col-md-4 col-sm-6 col-12 my-2">
@@ -50,7 +39,7 @@ function SalaryTable (props){
 
                   </CardBody>
                   <div className="container bg-secondary align-items-center">
-                     <h5>Lương: {parseInt(calculator(salary) , 10)}</h5>
+                     <h5>Lương: {parseInt(salary.salary , 10)}</h5>
                   </div>
                </CardBody>
             </Card>
@@ -87,7 +76,7 @@ function SalaryTable (props){
          <hr />
 
          <div className="row">
-            {salarys}
+            {props.isLoading? <Loading /> : salarys}
          </div>
 
       </div>

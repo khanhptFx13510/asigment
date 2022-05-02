@@ -9,6 +9,7 @@ export const DELETE_STAFF = "DELETE_STAFF";
 // Action Department
 export const ADD_DEPARTMENTS = "ADD_DEPARTMENTS";
 export const DEPARTMENTS_LOADING="DEPARTMENTS_LOADING";
+export const DEPARTMENTS_FAILED= "DEPARTMENTS_FAILED";
 
 // Action SalarysStaffs
 export const ADD_SALARYSTAFFS = 'ADD_SALARYSTAFFS';

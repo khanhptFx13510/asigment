@@ -3,12 +3,8 @@ import { Breadcrumb , BreadcrumbItem , Card , CardImg , CardBody , CardTitle} fr
 import { Link } from 'react-router-dom';
 
 export default class DapartmentInfor extends Component {
-   constructor(props){
-      super(props);
-   }
 
    render(){
-
       const staffOfDepart = this.props.staffs
       .filter((staff) => staff.departmentId === this.props.department.id)
       .map((staff) =>{

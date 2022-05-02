@@ -78,15 +78,9 @@ export default class HomePage extends Component {
          isOpenModal: !this.state.isOpenModal,
       })
       console.log(newStaff);
-      this.props.postStaff(newStaff);
+      // this.props.postStaff(newStaff);
    };
    
-   // submit delete staff
-   deleteStaff(id) {
-      console.log(id);
-      this.props.deleteStaff(id);
-   };
-
    render() {
       const staffs = () => {
          if(this.props.isLoading){
@@ -122,9 +116,6 @@ export default class HomePage extends Component {
                            </CardBody>
                            </Link>
                         </Card>
-                        <Button color="danger" onClick={() => this.deleteStaff(staff.id)}>
-                           Delete
-                        </Button>
                      </FadeTransform>
 
                   </div>
@@ -176,9 +167,9 @@ export default class HomePage extends Component {
                            placeholder=""
                            className="form-control"
                            validators={{
-                              // required: required, 
-                              // minLength: minLength(3),
-                              // maxLength: maxLength(30)
+                              required: required, 
+                              minLength: minLength(3),
+                              maxLength: maxLength(30)
                            }}
                            />
                            <Errors
@@ -203,7 +194,7 @@ export default class HomePage extends Component {
                         <Control type="date" model=".dateOfBirth" name="dateOfBirth" placeholder="date placeholder"
                         className="form-control"
                         validators={{
-                           // required,
+                           required,
                         }}
                         />
                         <Errors
@@ -225,7 +216,7 @@ export default class HomePage extends Component {
                         <Control type="date" model=".startDate" name="startDate" placeholder="date placeholder"
                         className="form-control"
                         validators={{
-                           // required,
+                           required,
                         }}
                         />
                         <Errors
@@ -246,7 +237,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.select model=".department" name="department" placeholder="what is your name?" className="form-control"
                         validators={{
-                           // required,
+                           required,
                         }}
                         >
                            <option>Sale</option>
@@ -274,7 +265,7 @@ export default class HomePage extends Component {
                         <Control.text model=".salaryScale" name="salaryScale" 
                         className="form-control"
                         validators={{
-                           // required, isNumber
+                           required, isNumber
                         }}
                         />
                         <Errors
@@ -296,7 +287,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.text model=".annualLeave"name="annualLeave" className="col-12 form-control"
                         validators={{
-                           // required, isNumber
+                           required, isNumber
                         }}
                         />
                         <Errors
@@ -318,7 +309,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.text model=".overTime"name="overTime" className="col-12 form-control"
                         validators={{
-                           // required, isNumber
+                           required, isNumber
                         }}
                         />
                         <Errors

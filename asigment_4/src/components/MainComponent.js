@@ -8,7 +8,7 @@ import SalaryTable from './SalaryComponent';
 import DapartmentInfor from './DeparmentInforComponent';
 import { Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchStaffs , fetchDepartments , fetchSalarys , postStaff , deleteStaff , updateStaff } from '../redux/ActionCreators';
+import { fetchStaffs , fetchDepartments , fetchSalarys } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = (state) => {
@@ -23,9 +23,6 @@ const mapDispatchToProps = (dispatch) =>({
    fetchStaffs: () => {dispatch(fetchStaffs())},
    fetchDepartments : () => {dispatch(fetchDepartments())},
    fetchSalarys: () => {dispatch(fetchSalarys())},
-   postStaff: (newStaff) => {dispatch(postStaff(newStaff))},
-   deleteStaff: (id) => {dispatch(deleteStaff(id))},
-   updateStaff: (staff) => {dispatch(updateStaff(staff))},
 });
 
 class Main extends Component {
@@ -34,22 +31,7 @@ class Main extends Component {
       this.props.fetchDepartments();
       this.props.fetchSalarys();
    }
-   
-   // constructor(props) {
-   //    super(props);
-      // this.state={
-         //    staffs: this.props.staffs ,
-         // };
-         // this.addStaff = this.addStaff.bind(this);
-      // }
-      
-      // addStaff = (staff) => {
-         //    this.setState({
-            //       staffs:[...this.state.staffs , staff]
-            //    })
-            // }
-            
-            
+         
    render() {
       const StaffWithId = ({match}) => {
          // console.log(match);
@@ -57,7 +39,6 @@ class Main extends Component {
             <StaffInfo 
                departments ={this.props.departments.departments} 
                staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.staffId))[0]}
-               updateStaffInfor={this.props.updateStaff}
             />
          )
       }
@@ -75,7 +56,6 @@ class Main extends Component {
       return (
          <div>
             <Header />
-
             <TransitionGroup>
                <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                   <Switch location={this.props.location}>
@@ -84,8 +64,6 @@ class Main extends Component {
                            <HomePage staffs={this.props.staffs.staffs}
                            isLoading ={this.props.staffs.isLoading}
                            errMess={this.props.staffs.isError}
-                           postStaff={this.props.postStaff}
-                           deleteStaff={this.props.deleteStaff}
                            />
                         } 
                      />

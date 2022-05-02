@@ -7,10 +7,11 @@ export const Departments = (state = {
    switch(action.type){
       case ActionTypes.ADD_DEPARTMENTS:
          return {...state , departments: action.payload , departmentsLoading: false};
-
+         break;
       case ActionTypes.DEPARTMENTS_LOADING:
          return {...state , departments: [] , departmentsLoading: true};
-      
+         break;
+         
       default:
          return state;
    }

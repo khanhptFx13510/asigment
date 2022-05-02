@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Loading} from './LoadingComponent';
 import { Card , CardBody , CardTitle , Breadcrumb , BreadcrumbItem , Button , CardText } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import { FadeTransform } from 'react-animation-components';
 
 function SalaryTable (props){
    
@@ -29,20 +29,27 @@ function SalaryTable (props){
    const salarys= listId.map(salary =>{
       return(
          <div key={salary.id} className="col-md-4 col-sm-6 col-12 my-2">
-            <Card className="shadow-lg">
-               <CardBody className="bg-dark text-success">
-                  <CardTitle><h4>{salary.name}</h4></CardTitle>
-                  <CardBody>
-                     <CardText>-Mã nhân viên: {salary.id}</CardText>
-                     <CardText>-Hệ số lương: {salary.salaryScale}</CardText>
-                     <CardText>-Số giờ làm thêm: {salary.overTime} giờ</CardText>
+            <FadeTransform
+               in
+               transformProps={{
+                  exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
+               <Card className="shadow-lg">
+                  <CardBody className="bg-dark text-success">
+                     <CardTitle><h4>{salary.name}</h4></CardTitle>
+                     <CardBody>
+                        <CardText>-Mã nhân viên: {salary.id}</CardText>
+                        <CardText>-Hệ số lương: {salary.salaryScale}</CardText>
+                        <CardText>-Số giờ làm thêm: {salary.overTime} giờ</CardText>
 
+                     </CardBody>
+                     <div className="container bg-secondary align-items-center">
+                        <h5>Lương: {parseInt(salary.salary , 10)}</h5>
+                     </div>
                   </CardBody>
-                  <div className="container bg-secondary align-items-center">
-                     <h5>Lương: {parseInt(salary.salary , 10)}</h5>
-                  </div>
-               </CardBody>
-            </Card>
+               </Card>
+
+            </FadeTransform>
          </div>
       )
    });

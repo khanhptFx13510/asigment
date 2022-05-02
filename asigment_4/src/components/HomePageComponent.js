@@ -3,11 +3,34 @@ import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Row , Input, C
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Loading} from './LoadingComponent';
+import { FadeTransform } from 'react-animation-components';
 
 const required = (val) => (val && val.length > 0);
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val && (val.length >= len)) || !(val)
 const isNumber = (val) => !isNaN(Number(val)) || !(val);
+
+function department (params) {
+   switch(params){
+      case "Sale":
+         return "Dept01";
+         break;
+      case "HR":
+         return "Dept02";
+         break;
+      case "Marketing":
+         return  "Dept03";
+         break;
+      case "IT":
+         return "Dept04";
+         break;
+      case "Finance":
+         return "Dept05";
+         break;
+   }
+};
+
+
 
 export default class HomePage extends Component {
    constructor(props) {
@@ -21,6 +44,7 @@ export default class HomePage extends Component {
       this.submitAddStaff = this.submitAddStaff.bind(this);
    }
 
+   // submit to search staff
    submitSearch(e){
       this.setState({
          nameSearched: e.target.search.value
@@ -32,16 +56,19 @@ export default class HomePage extends Component {
       this.setState({
          isOpenModal: !this.state.isOpenModal
       })
-   }
+      console.log(this.props.postStaff);
+   };
 
+   // submit to post staff
    submitAddStaff(values){
+
       const newStaff = {
          id: this.props.staffs.length + 1,
          name: values.nameStaff,
          doB: values.dateOfBirth,
          salaryScale: values.salaryScale,
          startDate: values.startDate,
-         department: values.department,
+         departmentId: department(values.department),
          annualLeave: values.annualLeave,
          overTime: values.overTime,
          salary: 3000000,
@@ -50,16 +77,27 @@ export default class HomePage extends Component {
       this.setState({
          isOpenModal: !this.state.isOpenModal,
       })
-   }
-      
+      console.log(newStaff);
+      this.props.postStaff(newStaff);
+   };
+   
+   // submit delete staff
+   deleteStaff(id) {
+      console.log(id);
+      this.props.deleteStaff(id);
+   };
 
    render() {
-      const staffs = () =>{
+      const staffs = () => {
          if(this.props.isLoading){
             return <Loading />
-         } else {
+         }
+         else if(this.props.errMess !== null){
+            return <h3>{this.props.errMess}</h3>
+         }          
+         else {
             const staffsList =this.props.staffs.filter(staff => {
-               if(this.state.nameSearched == ""){
+               if(this.state.nameSearched === ""){
                   return staff;
                }
                else if(
@@ -71,23 +109,32 @@ export default class HomePage extends Component {
             .map(staff =>{
                return(
                   <div key={staff.id} className="col-md-2 col-sm-4 col-6 my-2">
-                     <Card className="shadow-lg">
-                        <Link to={`/nhanvien/${staff.id}`}>
-                        <CardImg src={staff.image} width="100%" alt={staff.name} />
-                        <CardBody className="bg-dark">
-                           <CardTitle>{staff.name}</CardTitle>
-                        </CardBody>
-                        </Link>
-                     </Card>
+                     <FadeTransform
+                        in
+                        transformProps={{
+                           exitTransform: 'scale(0.5) translateY(-50%)'
+                     }}>
+                        <Card className="shadow-lg">
+                           <Link to={`/nhanvien/${staff.id}`}>
+                           <CardImg src={staff.image} width="100%" alt={staff.name} />
+                           <CardBody className="bg-dark">
+                              <CardTitle>{staff.name}</CardTitle>
+                           </CardBody>
+                           </Link>
+                        </Card>
+                        <Button color="danger" onClick={() => this.deleteStaff(staff.id)}>
+                           Delete
+                        </Button>
+                     </FadeTransform>
+
                   </div>
-         
                )
             });
+         
             return staffsList;
          }
       }
-
-      
+ 
       return (
          <div className="container">
             <div className="row" style={{display: 'flex' , justifyContent: "space-between"}}>
@@ -129,9 +176,9 @@ export default class HomePage extends Component {
                            placeholder=""
                            className="form-control"
                            validators={{
-                              required: required, 
-                              minLength: minLength(3),
-                              maxLength: maxLength(30)
+                              // required: required, 
+                              // minLength: minLength(3),
+                              // maxLength: maxLength(30)
                            }}
                            />
                            <Errors
@@ -156,7 +203,7 @@ export default class HomePage extends Component {
                         <Control type="date" model=".dateOfBirth" name="dateOfBirth" placeholder="date placeholder"
                         className="form-control"
                         validators={{
-                           required,
+                           // required,
                         }}
                         />
                         <Errors
@@ -178,7 +225,7 @@ export default class HomePage extends Component {
                         <Control type="date" model=".startDate" name="startDate" placeholder="date placeholder"
                         className="form-control"
                         validators={{
-                           required,
+                           // required,
                         }}
                         />
                         <Errors
@@ -199,7 +246,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.select model=".department" name="department" placeholder="what is your name?" className="form-control"
                         validators={{
-                           required,
+                           // required,
                         }}
                         >
                            <option>Sale</option>
@@ -227,7 +274,7 @@ export default class HomePage extends Component {
                         <Control.text model=".salaryScale" name="salaryScale" 
                         className="form-control"
                         validators={{
-                           required, isNumber
+                           // required, isNumber
                         }}
                         />
                         <Errors
@@ -249,7 +296,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.text model=".annualLeave"name="annualLeave" className="col-12 form-control"
                         validators={{
-                           required, isNumber
+                           // required, isNumber
                         }}
                         />
                         <Errors
@@ -271,7 +318,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.text model=".overTime"name="overTime" className="col-12 form-control"
                         validators={{
-                           required, isNumber
+                           // required, isNumber
                         }}
                         />
                         <Errors

@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom';
 import dateFormat from 'dateformat';
 import { FadeTransform } from 'react-animation-components';
 
+const isNumber = (val) => !isNaN(Number(val)) || !(val);
+
 function RenderStaff({staff , departments , update }) {
    const [isOpenModal, setIsOpenModal] = useState(false);
-   // check department for API
+
+   // Convert department to update API
    function departmentId (params) {
       switch(params){
          case "Sale":
@@ -42,7 +45,6 @@ function RenderStaff({staff , departments , update }) {
          salary: 3000000,
          image: '/assets/images/alberto.png',
       };
-      console.log(newInfor)
       setIsOpenModal(!isOpenModal);
       update(newInfor);
    }
@@ -134,28 +136,60 @@ function RenderStaff({staff , departments , update }) {
                   </Row>
                   {/* he so luong */}
                   <Row className="form-group">
-                     <Label htmlFor="salaryScale" md={4}>
-                        Hệ số lương
-                     </Label>
-                     <Col md={8}>
-                        <Control.text model=".salaryScale" name="salaryScale" className="form-control" />
-                     </Col>
-                  </Row>
+                        <Label htmlFor="salaryScale" md={4}>
+                           Hệ số lương 
+                        </Label>
+                        <Col md={8}>
+                        <Control.text model=".salaryScale" name="salaryScale" 
+                        className="form-control"
+                        validators={{
+                           isNumber
+                        }}
+                        />
+                        <Errors
+                           className="text-danger"
+                           model=".salaryScale"
+                           show="touched"
+                           messages={{
+                              isNumber: 'Dữ liệu nên là số'
+                           }}
+                        />
+                        </Col>
+                     </Row>
                   {/* Số ngày nghỉ còn lại */}
                   <Row className="form-group">
                      <Label htmlFor="annualLeave" md={4}>
-                        Số ngày nghỉ còn lại
+                        Số ngày nghỉ còn lại  
                      </Label>
                      <Col md={8}>
-                        <Control.text model=".annualLeave" name="annualLeave" className="form-control" />
-
+                     <Control.text model=".annualLeave" name="annualLeave" className="col-12 form-control"
+                     validators={{
+                        isNumber
+                     }}
+                     />
+                     <Errors
+                        className="text-danger"
+                        model=".annualLeave"
+                        show="touched"
+                        messages={{
+                           isNumber: 'Dữ liệu nên là số'
+                        }}
+                     />
                      </Col>
                   </Row>
                   {/* Số ngày làm thêm */}
                   <Row className="form-group">
                      <Label htmlFor="overTime" md={4}>Số ngày làm thêm</Label>
                      <Col md={8}>
-                        <Control.text model=".overTime" name="overTime" className="form-control" />
+                        <Control.text model=".overTime" name="overTime" className="form-control" 
+                        validators={{isNumber}}/>
+                        <Errors
+                           model=".overTime"
+                           className="text-danger"
+                           show="touched"
+                           messages={{
+                              isNumber: 'Dữ liệu nên là số'}}
+                        />
                      </Col>
                   </Row>
                   {/* Button submit update */}

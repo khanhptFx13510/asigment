@@ -34,21 +34,6 @@ class Main extends Component {
       this.props.fetchDepartments();
       this.props.fetchSalarys();
    }
-   
-   // constructor(props) {
-   //    super(props);
-      // this.state={
-         //    staffs: this.props.staffs ,
-         // };
-         // this.addStaff = this.addStaff.bind(this);
-      // }
-      
-      // addStaff = (staff) => {
-         //    this.setState({
-            //       staffs:[...this.state.staffs , staff]
-            //    })
-            // }
-            
             
    render() {
       const StaffWithId = ({match}) => {

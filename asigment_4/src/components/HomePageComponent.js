@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Row , Input, Col , Label , CardBody, ModalBody } from 'reactstrap';
+import { Card, CardImg, Button , CardTitle, Modal , ModalHeader , Row , Col , Label , CardBody, ModalBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Loading} from './LoadingComponent';
@@ -172,14 +172,14 @@ export default class HomePage extends Component {
                      <Row className="form-group">
                         <Label htmlFor="nameStaff" md={4}>Tên</Label>
                         <Col md={8}>
-                        <Control.text  model=".nameStaff" id="nameStaff" name="nameStaff"             
-                           placeholder=""
-                           className="form-control"
-                           validators={{
-                              // required: required, 
-                              // minLength: minLength(3),
-                              // maxLength: maxLength(30)
-                           }}
+                           <Control.text  model=".nameStaff" id="nameStaff" name="nameStaff"             
+                              placeholder=""
+                              className="form-control"
+                              validators={{
+                                 required: required, 
+                                 minLength: minLength(3),
+                                 maxLength: maxLength(30)
+                              }}
                            />
                            <Errors
                               className="text-danger"
@@ -203,7 +203,7 @@ export default class HomePage extends Component {
                         <Control type="date" model=".dateOfBirth" name="dateOfBirth" placeholder="date placeholder"
                         className="form-control"
                         validators={{
-                           // required,
+                           required,
                         }}
                         />
                         <Errors
@@ -225,7 +225,7 @@ export default class HomePage extends Component {
                         <Control type="date" model=".startDate" name="startDate" placeholder="date placeholder"
                         className="form-control"
                         validators={{
-                           // required,
+                           required,
                         }}
                         />
                         <Errors
@@ -246,7 +246,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.select model=".department" name="department" placeholder="what is your name?" className="form-control"
                         validators={{
-                           // required,
+                           required,
                         }}
                         >
                            <option>Sale</option>
@@ -274,7 +274,7 @@ export default class HomePage extends Component {
                         <Control.text model=".salaryScale" name="salaryScale" 
                         className="form-control"
                         validators={{
-                           // required, isNumber
+                           required, isNumber
                         }}
                         />
                         <Errors
@@ -294,9 +294,9 @@ export default class HomePage extends Component {
                            Số ngày nghỉ còn lại  
                         </Label>
                         <Col md={8}>
-                        <Control.text model=".annualLeave"name="annualLeave" className="col-12 form-control"
+                        <Control.text model=".annualLeave" name="annualLeave" className="col-12 form-control"
                         validators={{
-                           // required, isNumber
+                           required, isNumber
                         }}
                         />
                         <Errors
@@ -318,7 +318,7 @@ export default class HomePage extends Component {
                         <Col md={8}>
                         <Control.text model=".overTime"name="overTime" className="col-12 form-control"
                         validators={{
-                           // required, isNumber
+                           required, isNumber
                         }}
                         />
                         <Errors

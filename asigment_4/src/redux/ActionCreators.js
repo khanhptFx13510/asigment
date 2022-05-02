@@ -32,7 +32,7 @@ export const postStaff = (newStaff) => (dispatch) =>{
    .then(response => response.json())
    .then(response => {
       dispatch(addStaff(newStaff));
-      dispatch(addSalarysStaffs(response));
+      dispatch(fetchSalarys());
    })
    .catch(error => {
       alert('Your staff could not be posted\nError: ' + error.message)
